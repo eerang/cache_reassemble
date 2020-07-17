@@ -32,7 +32,7 @@ if __name__ == '__main__':
     result = [data[i * n:(i + 1) * n] for i in range((len(data) + n - 1) // n )] 
     
     csv_write("firefox_test.csv",data)
-
+    print("test")
 
 
     
