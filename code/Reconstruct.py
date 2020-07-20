@@ -3,9 +3,9 @@ import os
 import sys
 import pandas as pd
 
-supported_website_url_list = ["proxy-030.dc3.dailymotion.com"] #url 추가
-supported_website_name_list = ["dailymotion"] # website 명 추가
-supported_extension_list = [".ts"] #확장자 추가
+supported_website_url_list = ["proxy-030.dc3.dailymotion.com"] #ADD url
+supported_website_name_list = ["dailymotion"] #ADD website
+supported_extension_list = [".ts"] #ADD Extension
 
 def combine(path, tuples):
     assemble_data = b""
@@ -20,7 +20,7 @@ def combine(path, tuples):
 # oupput_filename = dailymotion_sec(##).ts
 def write(website,section,data):
     
-    #TODO data 읽어서 확장자 정하기 
+    #TODO Determine extensin by reading data
     extension = ".ts"
     
     output_filename = website + "_" + section + extension
@@ -37,9 +37,8 @@ def pre_analysis(url):
             return False
 
 def get_website_url(url):
-    # website 를 Categorize
+    # website Categorize
     website_url = url.split("/")[2]
-    #print(website_url)
     if website_url == supported_website_url_list[0] :
         return supported_website_name_list[0]
     else :
@@ -74,19 +73,19 @@ def get_fragment_from_url(url):
 def parse_url(data_list):
     categorized_by_web_and_section = dict() # Video[web]
     for (video, url) in data_list:
-        if not pre_analysis(url): #.mp4, .ts 가지고 있는 url만 진행
+        if not pre_analysis(url): #Proceed only with url that has '.mp4' and '.ts'
             continue
-        if url in supported_website_url_list : #지원하는 website만 진행
+        if url in supported_website_url_list : #Proceed only with supported website
             continue
 
-        website_information = get_website_url(url) #website 정보 얻기 e.g)dailymotin, youtube...
-        section_information = get_section_from_url(url) #seciton 정보 얻기
+        website_information = get_website_url(url) #website get Information e.g)dailymotin, youtube...
+        section_information = get_section_from_url(url) #seciton get Information
 
         if website_information not in categorized_by_web_and_section.keys() :
             categorized_by_web_and_section.setdefault(website_information, dict())
         if section_information not in categorized_by_web_and_section[website_information].keys():
             categorized_by_web_and_section[website_information].setdefault(section_information, list())
-        #dictionary에 키가 없으면 추가해주기.
+        #ADD dictionary key
         
         categorized_by_section = categorized_by_web_and_section[website_information][section_information] 
         categorized_by_section.append((video, get_fragment_from_url(url)))
@@ -94,7 +93,7 @@ def parse_url(data_list):
     return categorized_by_web_and_section
 
 def sorting(categorized_by_dictionary):
-    #frag 순서대로 정렬하는 함수
+    #frag sort
     keys = categorized_by_dictionary.keys()
     for key in keys:
         unwrapped_data = categorized_by_dictionary[key]
@@ -123,7 +122,7 @@ def csv_write(path, _list):
 
 if __name__ == '__main__':
 
-    basepath = "D://0.DFRC//2.논문//연구//에코쇼//Analysis//Echo//Cache//youtube_org.chromium.android_webview"
+    basepath = ""
     data = []
     result = []
     
@@ -149,7 +148,7 @@ if __name__ == '__main__':
             combined_data = combine(basepath,core_data_list) #assemble
             write(key,second_key, combined_data) #write
 
-    #csv_write("youtube_test2.csv",result)
+
 
 
 
