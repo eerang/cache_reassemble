@@ -20,7 +20,7 @@ def combine(path, tuples):
 # oupput_filename = dailymotion_sec(##).ts
 def write(website,section,data):
     
-    #TODO data 읽어서 확장자 정하기 
+    #TODO Determine extensin by reading data
     extension = ".mp4"
     
     output_filename = website + "_" + section + extension
